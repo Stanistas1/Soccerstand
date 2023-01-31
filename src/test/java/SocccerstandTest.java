@@ -49,9 +49,27 @@ public class SocccerstandTest {
     }
 
     @Test
-    public void numberOfGamesTest() {
-        WebElement tableBody = driver.findElement(By.className("ui-table__body"));
-        List<WebElement> rows = tableBody.findElements(By.className("ui-table__row"));
+    public void numberOfOverallGamesTest() {
+        numberOfGamesTest();
+    }
+
+    @Test
+    public void numberOfHomeGamesTest() {
+        WebElement homeButton = driver.findElement(By.xpath("//*[text()='U siebie']"));
+        homeButton.click();
+        numberOfGamesTest();
+    }
+
+    @Test
+    public void numberOfAwayGamesTest() {
+        WebElement awayButton = driver.findElement(By.xpath("//*[text()='Na wyjeździe']"));
+        awayButton.click();
+        numberOfGamesTest();
+    }
+
+    private static void numberOfGamesTest() {
+        WebElement homeTableBody = driver.findElement(By.className("ui-table__body"));
+        List<WebElement> rows = homeTableBody.findElements(By.className("ui-table__row"));
 
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("span"));
@@ -149,6 +167,4 @@ public class SocccerstandTest {
             assertEquals((long) totalPoints.get(team), homePoints.get(team) + awayPoints.get(team));
         }
     }
-
-
 }
