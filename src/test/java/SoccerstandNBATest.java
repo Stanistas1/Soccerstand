@@ -1,5 +1,4 @@
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -7,12 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SoccerstandNBATest {
     static WebDriver driver;
@@ -56,6 +53,21 @@ public class SoccerstandNBATest {
             pointsEastConceded = pointsEastConceded + Integer.parseInt(points[1]);
         }
         assertEquals(pointsEastScored + pointsWestScored, pointsEastConceded + pointsWestConceded);
+    }
+
+    @Test
+    public void overallGamesTest() {
+        List<WebElement> tablesBody = driver.findElements(By.className("ui-table__body"));
+        WebElement westTable = tablesBody.get(0);
+        WebElement eastTable = tablesBody.get(1);
+        List<WebElement> rows = westTable.findElements(By.className("ui-table__row"));
+        rows.addAll(eastTable.findElements(By.className("ui-table__row")));
+        for (WebElement row : rows) {
+            List<WebElement> columns = row.findElements(By.tagName("span"));
+            assertEquals(5, columns.size());
+            assertEquals(Integer.parseInt(columns.get(0).getText()), Integer.parseInt(columns.get(1).getText()) + Integer.parseInt(columns.get(2).getText()));
+            assertEquals(30, rows.size());
+        }
     }
 }
 

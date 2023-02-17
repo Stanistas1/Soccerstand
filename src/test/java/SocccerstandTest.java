@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class SocccerstandTest {
 
@@ -181,32 +182,38 @@ public class SocccerstandTest {
         }
     }
 
+    private static long getGoals(int columnIndex) {
+        WebElement tableBody = driver.findElement(By.className("ui-table__body"));
+        List<WebElement> rows = tableBody.findElements(By.className("table__cell--score"));
+        long result = 0;
+        for (WebElement row : rows) {
+            String[] goals = row.getText().split(":");
+            result = result + Integer.parseInt(goals[columnIndex]);
+        }
+        return result;
+    }
+
     @Test
     public void homeAwayGoalTest() {
         WebElement homeButton = driver.findElement(By.xpath("//*[text()='U siebie']"));
         homeButton.click();
-        WebElement homeTableBody = driver.findElement(By.className("ui-table__body"));
-        List<WebElement> homeRows = homeTableBody.findElements(By.className("table__cell--score"));
-        long goalsHomeScored = 0;
-        long goalsHomeConceded = 0;
-        for (WebElement row : homeRows) {
-            String[] goals = row.getText().split(":");
-            goalsHomeScored = goalsHomeScored + Integer.parseInt(goals[0]);
-            goalsHomeConceded = goalsHomeConceded + Integer.parseInt(goals[1]);
-        }
+        long goalsHomeScored = getGoals(0);
 
         WebElement awayButton = driver.findElement(By.xpath("//*[text()='Na wyjeździe']"));
         awayButton.click();
-        WebElement awayTableBody = driver.findElement(By.className("ui-table__body"));
-        List<WebElement> awayRows = awayTableBody.findElements(By.className("table__cell--score"));
-        long goalsAwayScored = 0;
-        long goalsAwayConceded = 0;
-        for (WebElement row : awayRows) {
-            String[] goals = row.getText().split(":");
-            goalsAwayScored = goalsAwayScored + Integer.parseInt(goals[0]);
-            goalsAwayConceded = goalsAwayConceded + Integer.parseInt(goals[1]);
-        }
+        long goalsAwayConceded = getGoals(1);
         assertEquals(goalsHomeScored, goalsAwayConceded);
+    }
+
+    @Test
+    public void awayHomeGoalTest() {
+        WebElement homeButton = driver.findElement(By.xpath("//*[text()='U siebie']"));
+        homeButton.click();
+        long goalsHomeConceded = getGoals(1);
+
+        WebElement awayButton = driver.findElement(By.xpath("//*[text()='Na wyjeździe']"));
+        awayButton.click();
+        long goalsAwayScored = getGoals(0);
         assertEquals(goalsAwayScored, goalsHomeConceded);
     }
 }
