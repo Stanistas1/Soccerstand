@@ -30,13 +30,17 @@ public class AmazonTests {
         navCartTextContainer.click();
         WebElement subTotal = driver.findElement(By.className("sc-number-of-items"));
         Matcher matcher = Pattern.compile("\\d+").matcher(subTotal.getText());
-        return Integer.parseInt(matcher.group());
+        if (matcher.find()) {
+            return Integer.parseInt(matcher.group());
+        } else {
+            return -1;
+        }
     }
 
     @Test
     public void test() {
-        addItemToCart("Lego City", 7);
-        addItemToCart("Lego Architecture", 23);
+        addItemToCart("Manchester City", 1);
+        addItemToCart("Arsenal London", 4);
 
         assertEquals(2, getNumberOfItemsInCart());
     }
