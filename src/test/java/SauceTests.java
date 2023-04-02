@@ -52,6 +52,32 @@ public class SauceTests {
         WebElement result = driver.findElement(By.xpath("//*[text()='Epic sadface: Sorry, this user has been locked out.']"));
         assertEquals("Epic sadface: Sorry, this user has been locked out.", result.getText());
     }
+
+    @Test
+    public void testLogin_ProblemUser() {
+        WebElement userNameInput = driver.findElement(By.id("user-name"));
+        userNameInput.sendKeys("problem_user");
+        WebElement passwordInput = driver.findElement(By.id("password"));
+        passwordInput.sendKeys("secret_sauce");
+        WebElement loginButton = driver.findElement(By.id("login-button"));
+        loginButton.click();
+
+        WebElement result = driver.findElement(By.className("title"));
+        assertEquals("Products", result.getText());
+    }
+
+    @Test
+    public void testLogin_PerformanceGlitchUser() {
+        WebElement userNameInput = driver.findElement(By.id("user-name"));
+        userNameInput.sendKeys("performance_glitch_user");
+        WebElement passwordInput = driver.findElement(By.id("password"));
+        passwordInput.sendKeys("secret_sauce");
+        WebElement loginButton = driver.findElement(By.id("login-button"));
+        loginButton.click();
+
+        WebElement result = driver.findElement(By.className("title"));
+        assertEquals("Products", result.getText());
+    }
 }
 
 
