@@ -32,20 +32,19 @@ public class EbayTests {
 
     @Test
     public void addItemToCart() {
-        WebElement searchItem = driver.findElement(By.id("gh-ac"));
-        searchItem.sendKeys("Kask Motocyklowy");
-        WebElement wyszukaj = driver.findElement(By.id("gh-btn"));
-        wyszukaj.click();
-        WebElement filtresRow = driver.findElement(By.className("fake-tabs"));
-        filtresRow.findElement(By.xpath("//*[text()='Kup teraz']")).click();
-        List<WebElement> imageContainers = driver.findElements(By.className("s-item"));
-        WebElement firstItem = imageContainers.get(3);
-        firstItem.click();
+        WebElement searchBox = driver.findElement(By.id("gh-ac"));
+        searchBox.sendKeys("lego star wars millenium falcon");
+        WebElement searchButton = driver.findElement(By.id("gh-btn"));
+        searchButton.click();
+        WebElement filtersRow = driver.findElement(By.className("fake-tabs"));
+        filtersRow.findElement(By.xpath("//*[text()='Kup teraz']")).click();
+        List<WebElement> itemList = driver.findElements(By.className("s-item"));
+        WebElement productImage = itemList.get(1).findElement(By.className("s-item__image"));
+        productImage.click();
+        WebElement mainContent = driver.findElement(By.id("mainContent"));
+        WebElement form = mainContent.findElement(By.tagName("form"));
+        System.out.println(form.getText());
+        //  WebElement ovimBuyBoxWrapper = form.findElement(By.className("x-buybox__section"));
+
     }
-
-     /*   WebElement filtresTable = driver.findElement(By.id("s0-51-12-0-1-2-6"));
-        WebElement kupTeraz = filtresTable.findElement(By.className("radio__unchecked"));
-        kupTeraz.click(); */
-
-
 }
